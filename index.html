@@ -23,19 +23,18 @@
         </div>
         <div id="map"></div>
         <button id="fetch-species" class="action-button">半径1キロメートル以内の生物を表示</button>
-        </section>
+    </section>
 
-    <!-- ブックマークエリア -->
     <section id="bookmark-section">
         <h2>ブックマークした生物</h2>
-        <div id="bookmark-list" class="card-container">
-        </div>
+        <div id="bookmark-list" class="card-container"></div>
     </section>
 
     <script type="module">
         import { googleMapsApiKey } from "./config/config.js";
 
         let map; // 地図オブジェクト
+        let marker; // マーカーオブジェクト
 
         document.addEventListener("DOMContentLoaded", () => {
             const script = document.createElement("script");
@@ -45,6 +44,7 @@
             document.head.appendChild(script);
         });
 
+        // 地図初期化関数
         window.initMap = function () {
             const MyLatLng = { lat: 35.6811673, lng: 139.7670516 }; // 東京駅
             map = new google.maps.Map(document.getElementById("map"), {
@@ -52,8 +52,16 @@
                 center: MyLatLng,
                 mapTypeId: "roadmap",
             });
+
+            // 初期マーカーを作成
+            marker = new google.maps.Marker({
+                position: MyLatLng,
+                map: map,
+                title: "東京駅", // ピンのタイトル
+            });
         };
 
+        // 住所検索ボタンのクリックイベント
         document.getElementById("search-address").addEventListener("click", () => {
             if (!map) {
                 alert("地図がロードされていません。しばらく待ってから再試行してください。");
@@ -75,6 +83,18 @@
 
                     // 地図を指定した場所に移動
                     map.setCenter(location);
+
+                    // 既存のマーカーを削除
+                    if (marker) {
+                        marker.setMap(null);
+                    }
+
+                    // 新しいマーカーを作成
+                    marker = new google.maps.Marker({
+                        position: location,
+                        map: map,
+                        title: address, // ピンのタイトルとして住所を表示
+                    });
                 } else {
                     alert("住所の検索に失敗しました: " + status);
                 }
