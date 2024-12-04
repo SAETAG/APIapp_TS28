@@ -34,7 +34,7 @@
         import { googleMapsApiKey } from "./config/config.js";
 
         let map; // 地図オブジェクト
-        let marker; // マーカーオブジェクト
+        let markers = []; // マーカーオブジェクト
 
         document.addEventListener("DOMContentLoaded", () => {
             const script = document.createElement("script");
@@ -100,6 +100,73 @@
                 }
             });
         });
+
+        // 半径1キロメートル以内の生物を表示するボタンのクリックイベント
+        document.getElementById("fetch-species").addEventListener("click", async () => {
+            if (!map) {
+                alert("地図がロードされていません。しばらく待ってから再試行してください。");
+                return;
+            }
+
+            // 地図の中心座標を取得
+            const center = map.getCenter();
+            const lat = center.lat();
+            const lng = center.lng();
+
+            // iNaturalist APIからデータを取得
+            const radius = 1; // 半径1km
+            const url = `https://api.inaturalist.org/v1/observations?lat=${lat}&lng=${lng}&radius=${radius}&per_page=10`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                // 既存のマーカーを削除
+                clearMarkers();
+
+                // 観察記録を地図上に表示
+                if (data.results) {
+                    data.results.forEach((observation) => {
+                        const obsLat = observation.geojson.coordinates[1];
+                        const obsLng = observation.geojson.coordinates[0];
+
+                        const marker = new google.maps.Marker({
+                            position: { lat: obsLat, lng: obsLng },
+                            map: map,
+                            title: observation.species_guess || "観察記録",
+                        });
+
+                        // マーカーリストに追加
+                        markers.push(marker);
+
+                        // マーカーにクリックイベントを追加
+                        const infoWindow = new google.maps.InfoWindow({
+                            content: `
+                        <div>
+                            <strong>${observation.species_guess || "不明な生物"}</strong><br>
+                            <a href="${observation.uri}" target="_blank">詳細を見る</a>
+                        </div>
+                    `,
+                        });
+
+                        marker.addListener("click", () => {
+                            infoWindow.open(map, marker);
+                        });
+                    });
+                } else {
+                    alert("周辺の観察記録が見つかりませんでした。");
+                }
+            } catch (error) {
+                console.error("iNaturalist APIの呼び出し中にエラーが発生しました:", error);
+                alert("データを取得できませんでした。");
+            }
+        });
+
+        // 既存のマーカーを削除
+        function clearMarkers() {
+            markers.forEach((marker) => marker.setMap(null));
+            markers = [];
+        }
+
     </script>
 </body>
 
