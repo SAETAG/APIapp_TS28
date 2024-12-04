@@ -9,8 +9,13 @@
 
 <body>
 
-    <main>
-        <!-- 地図エリア -->
+    <!-- タイトルエリア -->
+        <section id="title-section">
+            <p>リアルポケモンGO（もどき）</p>
+            <p>近くにいる生物を調べてみよう</p>
+        </section>
+
+    <!-- 地図エリア -->
         <section id="map-section">
             <p class="map-instruction">どこの生物を調べたい？</p>
             <div class="buttons">
@@ -22,15 +27,33 @@
             <button id="fetch-species" class="action-button">半径1キロメートル以内の生物を表示</button>
         </section>
     
-        <!-- ブックマークエリア -->
+    <!-- ブックマークエリア -->
         <section id="bookmark-section">
             <h2>ブックマークした生物</h2>
             <div id="bookmark-list" class="card-container">
-                <!-- 生物カードが動的に追加されます -->
             </div>
         </section>
-    </main>
     
-    <script type="module" src="./js/main.js"></script>
+    <script type="module">
+        import { googleMapsApiKey } from "./config/config.js";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&language=ja&callback=initMap`;
+            script.async = true;
+            script.defer = true;
+        document.head.appendChild(script);
+
+        window.initMap = function () {
+            const MyLatLng = { lat: 35.6811673, lng: 139.7670516 }; // 東京駅
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: MyLatLng,
+                mapTypeId: 'roadmap'
+                });
+            };
+        });
+
+    </script>
 </body>
 </html>

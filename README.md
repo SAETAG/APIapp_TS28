@@ -23,7 +23,7 @@
 
 ## ⑥難しかった点・次回トライしたいこと(又は機能)
 
-- 本当は「」
+- 本当は「現在地を取得」ボタンを押すと現在地を取得する機能もつけたかったのですが時間切れ叶いませんでした
 - 〇〇〇〇〇〇〇〇
 - 〇〇〇〇〇〇〇〇
 
@@ -33,4 +33,8 @@
 - [感想]
 - [参考記事]
   - 1. jsのモジュールを使う方法[https://ics.media/entry/16511/]
+  - 2. gitignoreの書き方徹底解説[https://terapotan.hatenablog.jp/entry/WhatIsGitignore]
+  - 3. Google Maps APIキーの取得・導入[https://x.gd/u8bJk]
+  - 2. gitignoreの書き方徹底解説[https://terapotan.hatenablog.jp/entry/WhatIsGitignore]
+  - 2. gitignoreの書き方徹底解説[https://terapotan.hatenablog.jp/entry/WhatIsGitignore]
   - 2. gitignoreの書き方徹底解説[https://terapotan.hatenablog.jp/entry/WhatIsGitignore]
