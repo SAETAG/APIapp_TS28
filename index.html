@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,52 +9,78 @@
 </head>
 
 <body>
+    <section id="title-section">
+        <p>リアルポケモンGO（もどき）</p>
+        <p>近くにいる生物を調べてみよう</p>
+    </section>
 
-    <!-- タイトルエリア -->
-        <section id="title-section">
-            <p>リアルポケモンGO（もどき）</p>
-            <p>近くにいる生物を調べてみよう</p>
+    <section id="map-section">
+        <p class="map-instruction">どこの生物を調べたい？</p>
+        <div class="buttons">
+            <button id="current-location">現在地から取得</button>
+            <input type="text" id="address-input" placeholder="住所を入力">
+            <button id="search-address">住所を検索</button>
+        </div>
+        <div id="map"></div>
+        <button id="fetch-species" class="action-button">半径1キロメートル以内の生物を表示</button>
         </section>
 
-    <!-- 地図エリア -->
-        <section id="map-section">
-            <p class="map-instruction">どこの生物を調べたい？</p>
-            <div class="buttons">
-                <button id="current-location">現在地から取得</button>
-                <input type="text" id="address-input" placeholder="住所を入力">
-                <button id="search-address">住所を検索</button>
-            </div>
-            <div id="map"></div>
-            <button id="fetch-species" class="action-button">半径1キロメートル以内の生物を表示</button>
-        </section>
-    
     <!-- ブックマークエリア -->
-        <section id="bookmark-section">
-            <h2>ブックマークした生物</h2>
-            <div id="bookmark-list" class="card-container">
-            </div>
-        </section>
-    
+    <section id="bookmark-section">
+        <h2>ブックマークした生物</h2>
+        <div id="bookmark-list" class="card-container">
+        </div>
+    </section>
+
     <script type="module">
         import { googleMapsApiKey } from "./config/config.js";
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const script = document.createElement('script');
+        let map; // 地図オブジェクト
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const script = document.createElement("script");
             script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&language=ja&callback=initMap`;
             script.async = true;
             script.defer = true;
-        document.head.appendChild(script);
+            document.head.appendChild(script);
+        });
 
         window.initMap = function () {
             const MyLatLng = { lat: 35.6811673, lng: 139.7670516 }; // 東京駅
-            const map = new google.maps.Map(document.getElementById('map'), {
+            map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 15,
                 center: MyLatLng,
-                mapTypeId: 'roadmap'
-                });
-            };
-        });
+                mapTypeId: "roadmap",
+            });
+        };
 
+        document.getElementById("search-address").addEventListener("click", () => {
+            if (!map) {
+                alert("地図がロードされていません。しばらく待ってから再試行してください。");
+                return;
+            }
+
+            const address = document.getElementById("address-input").value;
+
+            if (!address) {
+                alert("住所を入力してください");
+                return;
+            }
+
+            const geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode({ address: address }, (results, status) => {
+                if (status === "OK") {
+                    const location = results[0].geometry.location;
+
+                    // 地図を指定した場所に移動
+                    map.setCenter(location);
+                } else {
+                    alert("住所の検索に失敗しました: " + status);
+                }
+            });
+        });
     </script>
 </body>
+
 </html>
