@@ -6,9 +6,30 @@
     <title>リアルポケモンGO（もどき）</title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body>
 
+    <main>
+        <!-- 地図エリア -->
+        <section id="map-section">
+            <p class="map-instruction">どこの生物を調べたい？</p>
+            <div class="buttons">
+                <button id="current-location">現在地から取得</button>
+                <input type="text" id="address-input" placeholder="住所を入力">
+                <button id="search-address">住所を検索</button>
+            </div>
+            <div id="map"></div>
+            <button id="fetch-species" class="action-button">半径1キロメートル以内の生物を表示</button>
+        </section>
     
+        <!-- ブックマークエリア -->
+        <section id="bookmark-section">
+            <h2>ブックマークした生物</h2>
+            <div id="bookmark-list" class="card-container">
+                <!-- 生物カードが動的に追加されます -->
+            </div>
+        </section>
+    </main>
     
     <script type="module" src="./js/main.js"></script>
 </body>
