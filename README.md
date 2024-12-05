@@ -9,7 +9,7 @@
 
 ## ③DEMO
 
-デプロイしている場合はURLを記入（任意）
+https://saetag.github.io/APIapp_TS28/
 
 ## ④作ったアプリケーション用のIDまたはPasswordがある場合
 
