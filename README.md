@@ -18,8 +18,8 @@ https://saetag.github.io/APIapp_TS28/
 
 ## ⑤工夫した点・こだわった点
 
-- 今回はGitHubで先にレポジトリ作成するデプロイに初めて成功しました。
-- .gitignoreでAPI keyを書いたファイルをアップロードしないことに成功しました。
+- 今回はGitHubで先にレポジトリ作成してコミット＆プッシュしてデプロイしました。
+- .gitignoreでAPI keyを書いたファイルをアップロードしないようにしました。
 - APIは一応4つ使っています（GeocodingAPI, Maps Javascript API, Firebase, iNaturalist）
 
 ## ⑥難しかった点・次回トライしたいこと(又は機能)
