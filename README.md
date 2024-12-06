@@ -10,6 +10,9 @@
 
 ## ③DEMO
 https://saetag.github.io/APIapp_TS28/
+※PIA keyファイルをアップロードしていないので動きません
+
+【デモ動画】
 https://github.com/user-attachments/assets/5b582a7e-5bde-4019-98c4-7396d96620a6
 
 ## ④作ったアプリケーション用のIDまたはPasswordがある場合
